@@ -1,0 +1,14 @@
+{
+  "name": "SVGConverter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:autoasset/SVGConverter.git",
+  "scripts": {
+    "build": "node src/svg2ttf.js"
+  },
+  "author": "linhey <is.linhey@outlook.com>",
+  "license": "MIT",
+  "dependencies": {
+    "font-carrier": "^0.3.1"
+  }
+}
