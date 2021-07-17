@@ -1,0 +1,30 @@
+{
+  "font_family": "iconfont",
+  "glyphs": [
+    {
+      "name": "svg1.svg",
+      "font_class": "iconfont",
+      "unicode": "e000"
+    },
+    {
+      "name": "svg2.svg",
+      "font_class": "iconfont",
+      "unicode": "e001"
+    },
+    {
+      "name": "svg3.svg",
+      "font_class": "iconfont",
+      "unicode": "e002"
+    },
+    {
+      "name": "svg4.svg",
+      "font_class": "iconfont",
+      "unicode": "e003"
+    },
+    {
+      "name": "svg5.svg",
+      "font_class": "iconfont",
+      "unicode": "e004"
+    }
+  ]
+}

@@ -4,11 +4,13 @@
   "main": "index.js",
   "repository": "git@github.com:autoasset/SVGConverter.git",
   "scripts": {
-    "build": "node src/svg2ttf.js"
+    "build": "node src/main.js"
   },
   "author": "linhey <is.linhey@outlook.com>",
   "license": "MIT",
   "dependencies": {
-    "font-carrier": "^0.3.1"
+    "font-carrier": "^0.3.1",
+    "svg-to-pdfkit": "^0.1.8",
+    "svg2vectordrawable": "^2.7.1"
   }
 }
