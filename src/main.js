@@ -1,13 +1,13 @@
-const SVGs_Input_Path = './assets/SVGs/'
-const PDFs_Output_Path = './assets/PDFs/'
-const XMLs_Output_Path = './assets/XMLs/'
+const SVGs_Input_Path = '../assets/SVGs/'
+const PDFs_Output_Path = '../assets/PDFs/'
+const XMLs_Output_Path = '../assets/XMLs/'
 const XMLs_Options = {
     floatPrecision: 3, // 数值精度，默认为 2
     fillBlack: true, // 为无填充变成填充黑色，默认为 false
     xmlTag: true, // 添加 XML 文档声明标签，默认为 false
     tint: '#FFFFFFFF' // 在 vector 标签添加着色属性
 };
-const Iconfont_Output_Path = 'assets/Iconfont/'
+const Iconfont_Output_Path = '../assets/Iconfont/'
 const Iconfont_FontFamily = 'iconfont'
 
 
