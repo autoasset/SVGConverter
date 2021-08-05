@@ -51,15 +51,39 @@ async function svgFiles(path, callback) {
         await fs.rmdir(XMLs_Output_Path, { recursive: true })
         await fs.mkdir(XMLs_Output_Path, { recursive: true })
 
+        let iconFontHtml = `<style type="text/css">
+        @font-face {
+          font-family: 'iconfont';
+          src: url('iconfont.eot'); /* IE9 */
+          src: url('iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+          url('iconfont.woff') format('woff2'),
+          url('iconfont.woff') format('woff'), /* chrome、firefox */
+          url('iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+          url('iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+        }
+      
+        .iconfont {
+          font-family: "iconfont";
+          font-size: 16px;
+          font-style: normal;
+        }
+      </style>`
+
         await svgFiles(SVGs_Input_Path, async (file) => {
             const unicode = String.fromCharCode(0xe000 + file.index)
-            font.setSvg(unicode, file.data)
+            
+            font.setSvg(unicode, String(file.data))
+
+            const unicodeHex = unicode.charCodeAt(0).toString(16)
+            iconFontHtml += '\n'
+            iconFontHtml = iconFontHtml + '<span class="iconfont">' + unicode + '</span>'
+
             glyphs.push({
                 name: file.name
-                .replace(' ', '')
-                .replace('.svg', ''),
+                    .replace(' ', '')
+                    .replace('.svg', ''),
                 font_class: Iconfont_FontFamily,
-                unicode: unicode.charCodeAt(0).toString(16)
+                unicode: unicodeHex
             })
 
             const xml = await svg2vectordrawable(file.data, XMLs_Options)
@@ -80,6 +104,7 @@ async function svgFiles(path, callback) {
             types: ['ttf'],
         })
 
+        await fs.writeFile(Iconfont_Output_Path + Iconfont_FontFamily + '.html', iconFontHtml)
         await fs.writeFile(Iconfont_Output_Path + Iconfont_FontFamily + '.json', JSON.stringify({
             font_family: Iconfont_FontFamily,
             glyphs: glyphs,
