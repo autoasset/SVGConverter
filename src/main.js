@@ -5,16 +5,16 @@ const XMLs_Options = {
     floatPrecision: 3, // 数值精度，默认为 2
     fillBlack: true, // 为无填充变成填充黑色，默认为 false
     xmlTag: true, // 添加 XML 文档声明标签，默认为 false
-    tint: '#FFFFFFFF' // 在 vector 标签添加着色属性
+    tint: '#FF000000' // 在 vector 标签添加着色属性
 };
 const Iconfont_Output_Path = '../assets/Iconfont/'
 const Iconfont_FontFamily = 'iconfont'
-
 
 const fontCarrier = require('font-carrier')
 const svg2vectordrawable = require('svg2vectordrawable');
 const PDFDocument = require('pdfkit');
 const SVGtoPDF = require('svg-to-pdfkit');
+
 const fs = require('fs/promises')
 const fsSync = require('fs')
 
@@ -55,23 +55,29 @@ async function svgFiles(path, callback) {
             const unicode = String.fromCharCode(0xe000 + file.index)
             font.setSvg(unicode, file.data)
             glyphs.push({
-                name: file.name,
+                name: file.name
+                .replace(' ', '')
+                .replace('.svg', ''),
                 font_class: Iconfont_FontFamily,
                 unicode: unicode.charCodeAt(0).toString(16)
             })
 
             const xml = await svg2vectordrawable(file.data, XMLs_Options)
-            await fs.writeFile(XMLs_Output_Path + file.name.replace('.svg', '.xml'), xml)
+            await fs.writeFile(XMLs_Output_Path + file.name
+                .replace(' ', '')
+                .replace('.svg', '.xml'), xml)
 
             const doc = new PDFDocument()
             SVGtoPDF(doc, file.data.toString(), 0, 0);
-            doc.pipe(fsSync.createWriteStream(PDFs_Output_Path + file.name.replace('.svg', '.pdf')));
+            doc.pipe(fsSync.createWriteStream(PDFs_Output_Path + file.name
+                .replace(' ', '')
+                .replace('.svg', '.pdf')));
             doc.end();
         })
 
         font.output({
             path: Iconfont_Output_Path + Iconfont_FontFamily,
-            types: ['ttf', 'svg'],
+            types: ['ttf'],
         })
 
         await fs.writeFile(Iconfont_Output_Path + Iconfont_FontFamily + '.json', JSON.stringify({
