@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "font-carrier": "^0.3.1",
-    "svg-to-pdfkit": "^0.1.8",
+    "shelljs": "^0.8.4",
     "svg2vectordrawable": "^2.7.1"
   }
 }

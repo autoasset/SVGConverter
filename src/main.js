@@ -12,11 +12,10 @@ const Iconfont_FontFamily = 'iconfont'
 
 const fontCarrier = require('font-carrier')
 const svg2vectordrawable = require('svg2vectordrawable');
-const PDFDocument = require('pdfkit');
-const SVGtoPDF = require('svg-to-pdfkit');
 
 const fs = require('fs/promises')
-const fsSync = require('fs')
+const fsSync = require('fs');
+const { exec } = require('child_process');
 
 async function svgFiles(path, callback) {
     var filenames = await fs.readdir(path)
@@ -71,9 +70,8 @@ async function svgFiles(path, callback) {
 
         await svgFiles(SVGs_Input_Path, async (file) => {
             const unicode = String.fromCharCode(0xe000 + file.index)
-            
-            font.setSvg(unicode, String(file.data))
 
+            font.setSvg(unicode, String(file.data))
             const unicodeHex = unicode.charCodeAt(0).toString(16)
             iconFontHtml += '\n'
             iconFontHtml = iconFontHtml + '<span class="iconfont">' + unicode + '</span>'
@@ -91,12 +89,7 @@ async function svgFiles(path, callback) {
                 .replace(' ', '')
                 .replace('.svg', '.xml'), xml)
 
-            const doc = new PDFDocument()
-            SVGtoPDF(doc, file.data.toString(), 0, 0);
-            doc.pipe(fsSync.createWriteStream(PDFs_Output_Path + file.name
-                .replace(' ', '')
-                .replace('.svg', '.pdf')));
-            doc.end();
+            createPDF(file, PDFs_Output_Path + file.name.replace(' ', '').replace('.svg', '.pdf'));
         })
 
         font.output({
@@ -115,6 +108,10 @@ async function svgFiles(path, callback) {
     }
 })();
 
+function createPDF(file, output) {
+    var shell = require('shelljs');
+    shell.exec('inkscape ' + file.path + ' --export-type=pdf --export-filename=' + output)
+}
 
 function createFont(fontFamily) {
     var font = fontCarrier.create();
